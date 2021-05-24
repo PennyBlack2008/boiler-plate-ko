@@ -1,26 +1,22 @@
 const express = require('express')
 const app = express()
-const port = 3000
-const mongoose = require('mongoose')
-const bodyPrser = require('body-parser')
-const {User} = require("./models/User")
 const bodyParser = require('body-parser')
 const config = require('./config/key')
+const { User } = require("./models/User")
 
 // application/x-www-form-urlencoded 분석해서 가져오는 것
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 // application/json 분석해서 가져오는 것
-app.use(bodyPrser.json())
+app.use(bodyParser.json())
 
+const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI, {
 	useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
 }).then(() => console.log('MongoDB Conneceted...'))
   .catch(err => console.log(err))
 
 // respond with "hello world" when a GET request is made to the homepage
-app.get('/', function(req, res){
-	res.send('hello world!!')
-})
+app.get('/', (req, res) => res.send('hello world!!'))
 
 app.post('/register', (req, res) => {
 	// 회원 가입시 필요한 정보들을 client 에서 가져오면
@@ -41,6 +37,5 @@ app.post('/register', (req, res) => {
 	})
 })
 
-app.listen(port, function(){
-	console.log('Example app listening at http://localhost:${port}')
-})
+const port = 3000
+app.listen(port, () => console.log('Example app listening at ${port}!'))
